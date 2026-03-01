@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>Réserver un Taxi à Lyon</h2>
+  
+  <form [formGroup]="bookingForm" (ngSubmit)="simulate()">
+    <input formControlName="pickup" placeholder="Adresse de départ" />
+    <input formControlName="destination" (change)="calculateDistance()" placeholder="Destination" />
+
+    <input type="date" formControlName="date" />
+    <input type="time" formControlName="time" />
+    <div class="row">
+      <label class="checkbox-container">
+        <input type="checkbox" formControlName="isRoundTrip"> 
+        Trajet Aller-Retour (Tarif préférentiel au KM)
+      </label>
+    </div>
+
+    <select formControlName="passengers">
+      <option *ngFor="let i of [1,2,3,4,5,6,7]" [value]="i">{{i}} Passagers</option>
+    </select>
+
+    <input type="number" formControlName="luggage" placeholder="Nombre de bagages">
+
+    <button type="submit">Simuler le prix</button>
+  </form>
+
+  <div *ngIf="simulationResult" class="result-card">
+    <h3>Détails de la simulation</h3>
+    <p><strong>Départ :</strong> {{simulationResult.pickup}}</p>
+    <p><strong>Arrivée :</strong> {{simulationResult.destination}}</p>
+    <p><strong>Distance :</strong> {{simulationResult.distance}} km</p>
+    <p><strong>Tarification :</strong> {{simulationResult.isSpecial ? 'Nuit/Dimanche' : 'Jour'}}</p>
+    <p><strong>Bagages :</strong> {{simulationResult.luggage}} (Frais: {{simulationResult.luggageCost}}€)</p>     <p><strong>passagers :</strong> {{simulationResult.passengers}} p</p>
+    <p><strong>TRAJET :</strong> {{simulationResult.isRoundTrip ? 'aller retour' :'aller  '}}</p>
+    <hr>
+    <p class="total">Prix Total : {{simulationResult.total}} €</p>
+  </div>
+</div>
